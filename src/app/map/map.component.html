@@ -1,0 +1,26 @@
+<div id="modalEntradaDeDados" #modalEntradaDeDados>
+    <div id="divParaMensagem" (click)="ManipularModalEntradaDeDados()"><span class="ExibirOcultar">Toque para Exibir/Ocultar</span></div>
+    <h2 style="text-align: center;">Informe o trajeto</h2>
+    <div class="entrada">
+        <label for="">Origem:</label><input type="text" #INPUT_ORIGEM ng-model="autocomplete" />
+        <div (click)="UsarRotaAtualComoOrigem()" id="iconeDeUsarLocalizacaoAtual">
+            <mat-icon>gps_fixed</mat-icon>
+        </div>
+    </div>
+    <div class="entrada">
+        <label for="">Destino:</label><input type="text" #INPUT_DESTINO ng-model="autocomplete" />
+    </div>
+    <button class="botao-TracarRota" (click)="TracarRota()">Confirmar trajeto</button>
+</div>
+
+<div id="modalSaidaDeDados" #modalSaidaDeDados>
+    <div id="conteudo" (click)="ManipularModalSaidaDeDados()">
+        <span class="ExibirOcultar">Toque para Exibir/Ocultar</span>
+        <span class="conteudoInfo">Distância: {{distancia}}</span>
+        <span class="conteudoInfo">Duração: {{duracao}}</span>
+    </div>
+</div>
+<google-map style="z-index: 1;" height="100%" width="100%" [zoom]="zoom" [center]="center" [options]="optionsMap">
+    <map-directions-renderer *ngIf="(directionsResults | async) as directionsResults" [directions]="directionsResults">
+    </map-directions-renderer>
+</google-map>
