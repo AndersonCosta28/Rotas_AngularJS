@@ -1,6 +1,7 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { MapDirectionsRenderer, MapDirectionsService } from "@angular/google-maps";
+import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
 import { map } from 'rxjs/operators';
 import { Rota, VALORES_PADRAO_DOM } from '../utils'
@@ -58,7 +59,7 @@ export class MapComponent implements OnInit {
 
   //#endregion
   //#region Funções do ambiente
-  constructor(private readonly mapDirectionService: MapDirectionsService) {
+  constructor(private readonly mapDirectionService: MapDirectionsService, private toastr: ToastrService) {
     this.localizacaoDestino = { lat: 0, lng: 0 }
     this.localizacaoOrigem = { lat: 0, lng: 0 }
   }
@@ -120,6 +121,7 @@ export class MapComponent implements OnInit {
   }
 
   UsarRotaAtualComoOrigem() {
+    this.SolicitarPermissaoDeGeolocalizacao();
     navigator.geolocation.getCurrentPosition((position) => {
       this.localizacaoOrigem = {
         lat: position.coords.latitude,
@@ -129,7 +131,16 @@ export class MapComponent implements OnInit {
     });
   }
 
+  SolicitarPermissaoDeGeolocalizacao() {
+    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+      if (result.state === 'prompt' || result.state === 'denied') 
+        this.toastr.warning("É necessário a permissão da localização para esta ação");
+      });
+  }
+
   CentralizarMapaNaPosicaoAtual() {
+    this.SolicitarPermissaoDeGeolocalizacao();
+
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
