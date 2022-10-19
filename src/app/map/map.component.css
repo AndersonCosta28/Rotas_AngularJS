@@ -1,18 +1,18 @@
 #modalEntradaDeDados {
     z-index: 2;
     position: fixed;
-    margin: 60px 0px 0px 20px;
+    margin: 60px 0px 0px 10px;
     background-color: rgb(255, 255, 255, 0.8);
     display: flex;
     flex-direction: column;
     border-radius: 20px;
-    padding: 20px;
-    left: -350px;
+    padding: 20px 10px;
+    left: -330px;
     transition: left 1s ease;
 }
 
 #modalSaidaDeDados {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     z-index: 2;
     width: 100%;
@@ -37,7 +37,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 .ExibirOcultar {
@@ -46,29 +45,38 @@
     display: flex;
 }
 
-#divParaMensagem {
+#modalEntradaDeDados-divParaMensagem {
     transform: rotate(-90deg);
-    position: absolute;
-    right: -70px;
-    top: 120px;
-    width: fit-content;
+    right: -110px;
+    top: 110px;
+    width: 269px;
     height: 50px;
-
 }
 
-.entrada {
+#modalSaidaDeDados-divParaMensagem {
+    width: 400px;
+}
+
+#modalEntradaDeDados-divParaMensagem,
+#modalSaidaDeDados-divParaMensagem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+.modalEntradaDeDados-Inputs {
     display: flex;
     margin: 15px 20px;
     align-items: center;
     height: 30px;
 }
 
-.entrada label {
+.modalEntradaDeDados-Inputs label {
     width: 60px;
 }
 
-
-.entrada input {
+.modalEntradaDeDados-Inputs input {
     height: 30px;
 }
 
@@ -78,8 +86,30 @@
     margin: 20px;
 }
 
-#iconeDeUsarLocalizacaoAtual {
-    padding: 20px
+#icone-UsarLocalizacaoAtual {
+    padding: 5px 30px 0px 10px;
+}
+
+#icone-IrParaLocalizacaoAtual {
+    z-index: 2;
+    position: fixed;
+    background: #FFFFFF;
+    height: 40px;
+    width: 40px;
+    bottom: 180px;
+    right: 0px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+}
+
+#icone-IrParaLocalizacaoAtual:hover,
+#icone-UsarLocalizacaoAtual:hover,
+#modalEntradaDeDados-divParaMensagem:hover,
+#modalSaidaDeDados-divParaMensagem:hover {
+    cursor: pointer;
 }
 
 @media (min-width: 481px) {
@@ -90,5 +120,4 @@
     #conteudo {
         width: 400px;
     }
-
 }

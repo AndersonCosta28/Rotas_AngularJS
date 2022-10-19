@@ -32,11 +32,12 @@ export class MapComponent implements OnInit {
 
   optionsMap: google.maps.MapOptions = {
     mapTypeId: 'hybrid',
-    zoomControl: false,
-    scrollwheel: false,
-    disableDoubleClickZoom: true,
-    maxZoom: 15,
+    zoomControl: true,
+    scrollwheel: true,
+    disableDoubleClickZoom: false,
+    maxZoom: 18,
     minZoom: 8,
+    
   };
 
   optionsAutoComplete: google.maps.places.AutocompleteOptions = {
@@ -114,6 +115,15 @@ export class MapComponent implements OnInit {
         lng: position.coords.longitude,
       };
       (<HTMLInputElement>this.inputOrigem!.nativeElement).value = "Usando a posição atual como origem";
+    });
+  }
+
+  CentralizarMapaNaPosicaoAtual() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };      
     });
   }
 

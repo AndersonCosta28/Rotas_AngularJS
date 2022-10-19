@@ -4,6 +4,6 @@ export enum Rota {
 }
 
 export const ValoresParaOcultar ={
-    ModalDeEntradaDados:'-350px',
+    ModalDeEntradaDados:'-330px',
     ModalDeSaidaDeDados: "-150px"
 } 

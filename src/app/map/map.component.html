@@ -1,24 +1,34 @@
 <div id="modalEntradaDeDados" #modalEntradaDeDados>
-    <div id="divParaMensagem" (click)="ManipularModalEntradaDeDados()"><span class="ExibirOcultar">Toque para Exibir/Ocultar</span></div>
+    <div id="modalEntradaDeDados-divParaMensagem" (click)="ManipularModalEntradaDeDados()"><span
+            class="ExibirOcultar">Toque para Exibir/Ocultar</span></div>
     <h2 style="text-align: center;">Informe o trajeto</h2>
-    <div class="entrada">
+    <div class="modalEntradaDeDados-Inputs">
         <label for="">Origem:</label><input type="text" #INPUT_ORIGEM ng-model="autocomplete" />
-        <div (click)="UsarRotaAtualComoOrigem()" id="iconeDeUsarLocalizacaoAtual">
+        <div (click)="UsarRotaAtualComoOrigem()" id="icone-UsarLocalizacaoAtual">
             <mat-icon>gps_fixed</mat-icon>
         </div>
     </div>
-    <div class="entrada">
+    <div class="modalEntradaDeDados-Inputs">
         <label for="">Destino:</label><input type="text" #INPUT_DESTINO ng-model="autocomplete" />
     </div>
     <button class="botao-TracarRota" (click)="TracarRota()">Confirmar trajeto</button>
 </div>
 
 <div id="modalSaidaDeDados" #modalSaidaDeDados>
-    <div id="conteudo" (click)="ManipularModalSaidaDeDados()">
+    <div id="modalSaidaDeDados-divParaMensagem" (click)="ManipularModalSaidaDeDados()">
         <span class="ExibirOcultar">Toque para Exibir/Ocultar</span>
+    </div>
+    <div id="conteudo">
+        <div style="height: 60px;">
+            <!-- Somente um espaço em branco para encaixar a DIV acima com a mesma altura dele -->
+        </div>
         <span class="conteudoInfo">Distância: {{distancia}}</span>
         <span class="conteudoInfo">Duração: {{duracao}}</span>
     </div>
+</div>
+
+<div id="icone-IrParaLocalizacaoAtual" (click)="CentralizarMapaNaPosicaoAtual()">
+    <mat-icon>gps_fixed</mat-icon>
 </div>
 <google-map style="z-index: 1;" height="100%" width="100%" [zoom]="zoom" [center]="center" [options]="optionsMap">
     <map-directions-renderer *ngIf="(directionsResults | async) as directionsResults" [directions]="directionsResults">
