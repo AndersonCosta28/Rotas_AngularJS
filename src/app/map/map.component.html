@@ -1,4 +1,4 @@
-<div id="modalEntradaDeDados" #modalEntradaDeDados>
+<div id="modalEntradaDeDados" #modalEntradaDeDados style="left: -330px;">
     <div id="modalEntradaDeDados-divParaMensagem" (click)="ManipularModalEntradaDeDados()"><span
             class="ExibirOcultar">Toque para Exibir/Ocultar</span></div>
     <h2 style="text-align: center;">Informe o trajeto</h2>
@@ -15,12 +15,9 @@
 </div>
 
 <div id="modalSaidaDeDados" #modalSaidaDeDados>
-    <div id="modalSaidaDeDados-divParaMensagem" (click)="ManipularModalSaidaDeDados()">
-        <span class="ExibirOcultar">Toque para Exibir/Ocultar</span>
-    </div>
-    <div id="conteudo">
-        <div style="height: 60px;">
-            <!-- Somente um espaço em branco para encaixar a DIV acima com a mesma altura dele -->
+    <div id="conteudo" style="height: 60px;" #conteudoSaidaDeDados>
+        <div id="modalSaidaDeDados-divParaMensagem" (click)="ManipularModalSaidaDeDados()">
+            <span class="ExibirOcultar">Toque para Exibir/Ocultar</span>
         </div>
         <span class="conteudoInfo">Distância: {{distancia}}</span>
         <span class="conteudoInfo">Duração: {{duracao}}</span>

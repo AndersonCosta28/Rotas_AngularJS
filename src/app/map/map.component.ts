@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { MapDirectionsRenderer, MapDirectionsService } from "@angular/google-maps";
 import { Observable } from "rxjs";
 import { map } from 'rxjs/operators';
-import { Rota, ValoresParaOcultar } from '../utils'
+import { Rota, VALORES_PADRAO_DOM } from '../utils'
 
 @Component({
   selector: 'app-map',
@@ -22,8 +22,17 @@ export class MapComponent implements OnInit {
   @ViewChild('modalEntradaDeDados', { static: true })
   modalEntradaDeDados?: ElementRef;
 
-  @ViewChild('modalSaidaDeDados', { static: true })
-  modalSaidadaDeDados?: ElementRef;
+  @ViewChild("INPUT_DESTINO", { static: true })
+  inputDestino?: ElementRef;
+  @ViewChild("INPUT_ORIGEM", { static: true })
+  inputOrigem?: ElementRef;
+
+  @ViewChild("conteudoSaidaDeDados")
+  conteudoSaidaDeDados?: ElementRef;
+
+  @ViewChild('conteudoInfo')
+  conteudoInfoSaidaDeDados?: ElementRef;
+
 
   center: google.maps.LatLngLiteral = {
     lat: -12.257377,
@@ -37,7 +46,7 @@ export class MapComponent implements OnInit {
     disableDoubleClickZoom: false,
     maxZoom: 18,
     minZoom: 8,
-    
+
   };
 
   optionsAutoComplete: google.maps.places.AutocompleteOptions = {
@@ -47,11 +56,6 @@ export class MapComponent implements OnInit {
 
   directionsResults?: Observable<google.maps.DirectionsResult | undefined>;
 
-  @ViewChild("INPUT_DESTINO", { static: true })
-  inputDestino?: ElementRef;
-  @ViewChild("INPUT_ORIGEM", { static: true })
-  inputOrigem?: ElementRef;
-
   //#endregion
   //#region Funções do ambiente
   constructor(private readonly mapDirectionService: MapDirectionsService) {
@@ -60,6 +64,13 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+    });
+
     const origem: google.maps.places.Autocomplete = new google.maps.places.Autocomplete(this.inputOrigem!.nativeElement, this.optionsAutoComplete);
     const destino: google.maps.places.Autocomplete = new google.maps.places.Autocomplete(this.inputDestino!.nativeElement, this.optionsAutoComplete);
 
@@ -82,7 +93,7 @@ export class MapComponent implements OnInit {
       this.duracao = res?.routes[0].legs[0].duration?.text
     })
     this.OcultarModalEntradaDeDados();
-    this.ExibirModalSaidaDeDados();
+    this.ExibirConteudoDaSaidaDeDados();
   }
 
   AdicionarOuvinte(autoComplete: google.maps.places.Autocomplete, rota: Rota): void {
@@ -123,34 +134,44 @@ export class MapComponent implements OnInit {
       this.center = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
-      };      
+      };
     });
   }
 
   //#endregion
   //#region modal entrada de dados
   ManipularModalEntradaDeDados() {
-    if (this.modalEntradaDeDados!.nativeElement.style.left == ValoresParaOcultar.ModalDeEntradaDados)
+    if (this.modalEntradaDeDados!.nativeElement.style.left == VALORES_PADRAO_DOM.ModalDeEntradaDados.ocultar)
       this.ExibirModalEntradaDeDados()
     else
       this.OcultarModalEntradaDeDados();
   }
 
-  ExibirModalEntradaDeDados() { this.modalEntradaDeDados!.nativeElement.style.left = '0px'; }
+  ExibirModalEntradaDeDados() { this.modalEntradaDeDados!.nativeElement.style.left = VALORES_PADRAO_DOM.ModalDeEntradaDados.exibir; }
 
-  OcultarModalEntradaDeDados() { this.modalEntradaDeDados!.nativeElement.style.left = ValoresParaOcultar.ModalDeEntradaDados; }
+  OcultarModalEntradaDeDados() { this.modalEntradaDeDados!.nativeElement.style.left = VALORES_PADRAO_DOM.ModalDeEntradaDados.ocultar; }
   //#endregion
   //#region modal de saida de Dados
 
   ManipularModalSaidaDeDados() {
-    if (this.modalSaidadaDeDados!.nativeElement.style.bottom == ValoresParaOcultar.ModalDeSaidaDeDados)
-      this.ExibirModalSaidaDeDados()
+    if (this.conteudoSaidaDeDados!.nativeElement.style.height == VALORES_PADRAO_DOM.ConteudoDaSaidaDeDados.ocultar)
+      this.ExibirConteudoDaSaidaDeDados();
     else
-      this.OcultarModalSaidaDeDados();
+      this.OcultarConteudoDaSaidaDeDados();
+  }
+  ExibirConteudoDaSaidaDeDados() {
+    this.conteudoSaidaDeDados!.nativeElement.style.height = VALORES_PADRAO_DOM.ConteudoDaSaidaDeDados.exibir
+    Array.from(document.getElementsByClassName('conteudoInfo')).forEach((item, index) => {
+      (<HTMLSpanElement>item).style.opacity = '1'
+    })
+  }
+  OcultarConteudoDaSaidaDeDados() {
+    this.conteudoSaidaDeDados!.nativeElement.style.height = VALORES_PADRAO_DOM.ConteudoDaSaidaDeDados.ocultar
+    Array.from(document.getElementsByClassName('conteudoInfo')).forEach((item, index) => {
+      (<HTMLSpanElement>item).style.opacity = '0';
+    })
   }
 
-  ExibirModalSaidaDeDados() { this.modalSaidadaDeDados!.nativeElement.style.bottom = '0px'; }
 
-  OcultarModalSaidaDeDados() { this.modalSaidadaDeDados!.nativeElement.style.bottom = ValoresParaOcultar.ModalDeSaidaDeDados; }
   //#endregion
 }
